@@ -345,7 +345,7 @@ This provides a structured workflow instead of simply storing project informatio
 
 # 🌐 Multilingual Support
 
-Sahyog supports both:
+Sahyog supports:
 
 🇬🇧 **English**
 
@@ -642,7 +642,7 @@ The original citizen receives a notification that a solution has been deployed.
 
 ## 👤 Citizen Dashboard
 
-![Citizen Dashboard](docs/screenshots/citizen-dashboard.png)
+![Citizen Dashboard](frontend/docs/screenshots/citizen-dashboard.png)
 
 The citizen dashboard provides problem reporting, problem tracking, statistics and notifications.
 
@@ -650,7 +650,7 @@ The citizen dashboard provides problem reporting, problem tracking, statistics a
 
 ## 🗳️ Problem Detail & Community Validation
 
-![Challenge Detail and Community Validation](docs/screenshots/challenge-detail-community-validation.png)
+![Challenge Detail and Community Validation](frontend/docs/screenshots/challenge-detail-community-validation.png)
 
 Citizens can view AI analysis, matched universities, faculty, scientist reviews and validate whether they are affected by the problem.
 
@@ -658,7 +658,7 @@ Citizens can view AI analysis, matched universities, faculty, scientist reviews 
 
 ## 🏫 University Dashboard
 
-![University Dashboard](docs/screenshots/university-dashboard.png)
+![University Dashboard](frontend/docs/screenshots/university-dashboard.png)
 
 Universities can discover societal problems and manage solution projects.
 
@@ -666,7 +666,7 @@ Universities can discover societal problems and manage solution projects.
 
 ## 🔄 Project Lifecycle
 
-![Project Lifecycle](docs/screenshots/project-lifecycle.png)
+![Project Lifecycle](frontend/docs/screenshots/project-lifecycle.png)
 
 Projects can be tracked through the complete lifecycle from proposal to deployment and completion.
 
@@ -674,7 +674,7 @@ Projects can be tracked through the complete lifecycle from proposal to deployme
 
 ## 🏭 Industry Dashboard
 
-![Industry Dashboard](docs/screenshots/industry-dashboard.png)
+![Industry Dashboard](frontend/docs/screenshots/industry-dashboard.png)
 
 Industry partners can discover projects and provide different forms of support.
 
@@ -682,7 +682,7 @@ Industry partners can discover projects and provide different forms of support.
 
 ## 🔬 Scientist Dashboard
 
-![Scientist Dashboard](docs/screenshots/scientist-dashboard.png)
+![Scientist Dashboard](frontend/docs/screenshots/scientist-dashboard.png)
 
 Scientists can review societal problems and provide expert observations and recommendations.
 
@@ -690,7 +690,7 @@ Scientists can review societal problems and provide expert observations and reco
 
 ## 🏛️ Government Dashboard
 
-![Government Dashboard](docs/screenshots/government-dashboard.png)
+![Government Dashboard](frontend/docs/screenshots/government-dashboard.png)
 
 Government officials can monitor challenges, projects, participation and measurable impact.
 
@@ -698,7 +698,7 @@ Government officials can monitor challenges, projects, participation and measura
 
 ## 🤖 Sahyog AI Assistant
 
-![Sahyog AI Chatbot](docs/screenshots/sahyog-ai-chatbot.png)
+![Sahyog AI Chatbot](frontend/docs/screenshots/sahyog-ai-chatbot.png)
 
 The integrated AI assistant helps users interact with and understand the platform.
 
@@ -754,7 +754,6 @@ The integrated AI assistant helps users interact with and understand the platfor
 ```text
 Societal-Innovation-Portal/
 
-│
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -769,23 +768,23 @@ Societal-Innovation-Portal/
 │
 ├── frontend/
 │   ├── public/
+│   ├── docs/
+│   │   └── screenshots/
+│   │       ├── challenge-detail-community-validation.png
+│   │       ├── citizen-dashboard.png
+│   │       ├── government-dashboard.png
+│   │       ├── industry-dashboard.png
+│   │       ├── project-lifecycle.png
+│   │       ├── sahyog-ai-chatbot.png
+│   │       ├── scientist-dashboard.png
+│   │       └── university-dashboard.png
+│   │
 │   └── src/
 │       ├── components/
 │       ├── context/
 │       ├── pages/
 │       ├── services/
 │       └── i18n/
-│
-├── docs/
-│   └── screenshots/
-│       ├── challenge-detail-community-validation.png
-│       ├── citizen-dashboard.png
-│       ├── government-dashboard.png
-│       ├── industry-dashboard.png
-│       ├── project-lifecycle.png
-│       ├── sahyog-ai-chatbot.png
-│       ├── scientist-dashboard.png
-│       └── university-dashboard.png
 │
 └── README.md
 ```
