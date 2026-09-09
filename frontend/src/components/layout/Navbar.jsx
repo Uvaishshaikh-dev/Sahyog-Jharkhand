@@ -82,21 +82,29 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
           </Link>
 
           <Link
-            to="/university/dashboard"
+            to="/login/university"
             className="text-sm font-semibold !text-black hover:text-slate-950"
           >
             {t('university')}
           </Link>
 
+          {/* SCIENTIST */}
           <Link
-            to="/industry/dashboard"
+            to="/login/scientist"
+            className="text-sm font-semibold !text-black hover:text-slate-950"
+          >
+            {language === 'hi' ? 'वैज्ञानिक' : 'Scientist'}
+          </Link>
+
+          <Link
+            to="/login/industry"
             className="text-sm font-semibold !text-black hover:text-slate-950"
           >
             {language === 'hi' ? 'उद्योग' : 'Industry'}
           </Link>
 
           <Link
-            to="/government/dashboard"
+            to="/login/government"
             className="text-sm font-semibold !text-black hover:text-slate-950"
           >
             {language === 'hi' ? 'सरकार' : 'Government'}

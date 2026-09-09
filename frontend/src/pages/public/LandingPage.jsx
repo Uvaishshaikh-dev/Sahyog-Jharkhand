@@ -115,7 +115,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* PLATFORM WORKFLOW */}
+          {/* PLATFORM WORKFLOW PREVIEW */}
           <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-5 shadow-lg">
             <div className="rounded-2xl bg-slate-900 p-5 text-white">
               <div className="text-xs uppercase tracking-[0.2em] text-slate-300">
@@ -184,6 +184,50 @@ export default function LandingPage() {
                   Jharkhand-focused
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SUPPORT SAHYOG */}
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
+          <div className="grid items-center gap-10 p-8 md:grid-cols-[1fr_280px] md:p-10">
+            <div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900">
+                <Heart className="h-6 w-6 text-white" />
+              </div>
+
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Support community innovation
+              </p>
+
+              <h2 className="mt-3 text-3xl font-bold text-slate-900">
+                Help turn ideas into real solutions.
+              </h2>
+
+              <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">
+                Contributions can help support research, prototyping,
+                community pilots, and other activities needed to take
+                grassroots solutions from an idea to the field.
+              </p>
+
+              <div className="mt-5 flex items-center gap-2 text-sm font-medium text-slate-600">
+                <QrCode className="h-4 w-4" />
+                Scan the QR code to contribute
+              </div>
+            </div>
+
+            <div className="mx-auto w-full max-w-[240px] rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <img
+                src="/qr.jpeg"
+                alt="QR code to support Sahyog"
+                className="h-auto w-full rounded-xl"
+              />
+
+              <p className="mt-3 text-center text-xs font-medium text-slate-500">
+                Scan to donate
+              </p>
             </div>
           </div>
         </div>
@@ -290,50 +334,6 @@ export default function LandingPage() {
               <p className="mt-3 text-slate-300">
                 Government stakeholders can monitor challenges, projects,
                 institutional participation, and measurable impact.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SUPPORT SAHYOG */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
-          <div className="grid items-center gap-10 p-8 md:grid-cols-[1fr_280px] md:p-10">
-            <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900">
-                <Heart className="h-6 w-6 text-white" />
-              </div>
-
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Support community innovation
-              </p>
-
-              <h2 className="mt-3 text-3xl font-bold text-slate-900">
-                Help turn ideas into real solutions.
-              </h2>
-
-              <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">
-                Contributions can help support research, prototyping,
-                community pilots, and other activities needed to take
-                grassroots solutions from an idea to the field.
-              </p>
-
-              <div className="mt-5 flex items-center gap-2 text-sm font-medium text-slate-600">
-                <QrCode className="h-4 w-4" />
-                Scan the QR code to contribute
-              </div>
-            </div>
-
-            <div className="mx-auto w-full max-w-[240px] rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <img
-                src="/qr.jpeg"
-                alt="QR code to support Sahyog"
-                className="h-auto w-full rounded-xl"
-              />
-
-              <p className="mt-3 text-center text-xs font-medium text-slate-500">
-                Scan to donate
               </p>
             </div>
           </div>

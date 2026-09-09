@@ -12,6 +12,8 @@ import {
   Building2,
   AlertCircle,
   Microscope,
+  ThumbsUp,
+  ThumbsDown,
 } from 'lucide-react'
 
 import Badge from '../../components/common/Badge'
@@ -30,6 +32,17 @@ export default function ChallengeDetailPage() {
   const [heiDetails, setHeiDetails] = useState({})
   const [facultyMatches, setFacultyMatches] = useState([])
   const [scientistReviews, setScientistReviews] = useState([])
+
+  // Community validation
+  const [voteData, setVoteData] = useState({
+    yes_votes: 0,
+    no_votes: 0,
+    total_votes: 0,
+    validation_score: 0,
+    user_vote: null,
+  })
+
+  const [voting, setVoting] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -55,7 +68,17 @@ export default function ChallengeDetailPage() {
           `http://127.0.0.1:8000/api/v1/scientist-reviews/challenge/${id}`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              Authorization: `Bearer ${localStorage.getItem('sih_token')}`,
+            },
+          }
+        )
+
+        // Community validation
+        const voteResponse = await fetch(
+          `http://127.0.0.1:8000/api/v1/challenge-votes/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('sih_token')}`,
             },
           }
         )
@@ -68,6 +91,10 @@ export default function ChallengeDetailPage() {
           ? await scientistResponse.json()
           : []
 
+        const voteDataResponse = voteResponse.ok
+          ? await voteResponse.json()
+          : null
+
         setChallenge(challengeData)
         setAiAnalysis(aiResponse.data)
         setHeiMatches(heiMatchData)
@@ -78,6 +105,10 @@ export default function ChallengeDetailPage() {
             ? scientistReviewData
             : []
         )
+
+        if (voteDataResponse) {
+          setVoteData(voteDataResponse)
+        }
 
         const details = {}
 
@@ -113,6 +144,56 @@ export default function ChallengeDetailPage() {
 
     loadChallenge()
   }, [id])
+
+  // ---------------------------------------------------------
+  // COMMUNITY VOTING
+  // ---------------------------------------------------------
+
+  const handleVote = async (vote) => {
+    try {
+      setVoting(true)
+
+      const token = localStorage.getItem('sih_token')
+
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/v1/challenge-votes/${id}?vote=${vote}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+
+        throw new Error(
+          data?.detail || 'Unable to record your vote.'
+        )
+      }
+
+      // Get updated vote counts
+      const resultsResponse = await fetch(
+        `http://127.0.0.1:8000/api/v1/challenge-votes/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      if (resultsResponse.ok) {
+        const results = await resultsResponse.json()
+        setVoteData(results)
+      }
+    } catch (err) {
+      console.error(err)
+      alert(err.message || 'Unable to record your vote.')
+    } finally {
+      setVoting(false)
+    }
+  }
 
   const getStatusLabel = (status) => {
     const labels = {
@@ -465,6 +546,191 @@ export default function ChallengeDetailPage() {
           </div>
         </Card>
       </div>
+
+      {/* COMMUNITY IMPACT VALIDATION */}
+      <Card
+        title={
+          language === 'hi'
+            ? 'सामुदायिक प्रभाव सत्यापन'
+            : 'Community Impact Validation'
+        }
+        subtitle={
+          language === 'hi'
+            ? 'क्या यह समस्या आपको भी प्रभावित करती है?'
+            : 'Is this problem affecting you too?'
+        }
+      >
+        <div className="space-y-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100">
+              <Users className="h-5 w-5 text-slate-700" />
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold text-slate-900">
+                {language === 'hi'
+                  ? 'समुदाय की प्रतिक्रिया'
+                  : 'Community response'}
+              </p>
+
+              <p className="text-xs text-slate-500">
+                {language === 'hi'
+                  ? 'आपकी प्रतिक्रिया समस्या के वास्तविक प्रभाव को समझने में मदद करती है।'
+                  : 'Your response helps Sahyog understand the real impact of this problem.'}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {/* YES */}
+            <button
+              type="button"
+              disabled={voting}
+              onClick={() => handleVote('YES')}
+              className={`rounded-2xl border-2 p-5 text-left transition ${
+                voteData.user_vote === 'YES'
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'border-slate-200 bg-white hover:border-slate-400'
+              } ${
+                voting
+                  ? 'cursor-not-allowed opacity-60'
+                  : 'cursor-pointer'
+              }`}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <ThumbsUp className="h-6 w-6 shrink-0" />
+
+                  <div>
+                    <p className="font-bold">
+                      {language === 'hi'
+                        ? 'हाँ — मैं प्रभावित हूँ'
+                        : "Yes — I'm affected"}
+                    </p>
+
+                    <p
+                      className={`mt-1 text-xs ${
+                        voteData.user_vote === 'YES'
+                          ? 'text-slate-300'
+                          : 'text-slate-500'
+                      }`}
+                    >
+                      {language === 'hi'
+                        ? 'यह समस्या मुझे भी प्रभावित करती है'
+                        : 'This problem affects me too'}
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-2xl font-bold">
+                  {voteData.yes_votes}
+                </span>
+              </div>
+            </button>
+
+            {/* NO */}
+            <button
+              type="button"
+              disabled={voting}
+              onClick={() => handleVote('NO')}
+              className={`rounded-2xl border-2 p-5 text-left transition ${
+                voteData.user_vote === 'NO'
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'border-slate-200 bg-white hover:border-slate-400'
+              } ${
+                voting
+                  ? 'cursor-not-allowed opacity-60'
+                  : 'cursor-pointer'
+              }`}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <ThumbsDown className="h-6 w-6 shrink-0" />
+
+                  <div>
+                    <p className="font-bold">
+                      {language === 'hi'
+                        ? 'नहीं — मैं प्रभावित नहीं हूँ'
+                        : "No — I'm not affected"}
+                    </p>
+
+                    <p
+                      className={`mt-1 text-xs ${
+                        voteData.user_vote === 'NO'
+                          ? 'text-slate-300'
+                          : 'text-slate-500'
+                      }`}
+                    >
+                      {language === 'hi'
+                        ? 'यह समस्या मुझे प्रभावित नहीं करती'
+                        : 'This problem does not affect me'}
+                    </p>
+                  </div>
+                </div>
+
+                <span className="text-2xl font-bold">
+                  {voteData.no_votes}
+                </span>
+              </div>
+            </button>
+          </div>
+
+          {/* Validation score */}
+          <div className="rounded-2xl bg-slate-50 p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-slate-600">
+                  {language === 'hi'
+                    ? 'सामुदायिक सत्यापन स्कोर'
+                    : 'Community Validation Score'}
+                </p>
+
+                <p className="mt-1 text-3xl font-bold text-slate-900">
+                  {voteData.validation_score}%
+                </p>
+              </div>
+
+              <div className="text-sm text-slate-500">
+                {voteData.total_votes}{' '}
+                {language === 'hi'
+                  ? 'कुल प्रतिक्रियाएँ'
+                  : 'total responses'}
+              </div>
+            </div>
+
+            <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-200">
+              <div
+                className="h-full rounded-full bg-slate-900 transition-all duration-500"
+                style={{
+                  width: `${Math.min(
+                    100,
+                    Math.max(
+                      0,
+                      Number(voteData.validation_score) || 0
+                    )
+                  )}%`,
+                }}
+              />
+            </div>
+
+            <div className="mt-3 flex justify-between text-xs text-slate-500">
+              <span>
+                👍 {voteData.yes_votes}{' '}
+                {language === 'hi'
+                  ? 'प्रभावित'
+                  : 'affected'}
+              </span>
+
+              <span>
+                👎 {voteData.no_votes}{' '}
+                {language === 'hi'
+                  ? 'प्रभावित नहीं'
+                  : 'not affected'}
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
 
       <Card
         title={t('universitiesThatMayHelp') || 'Universities that may help'}

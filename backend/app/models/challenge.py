@@ -122,3 +122,10 @@ class Challenge(Base):
         back_populates="challenge",
         uselist=False,
     )
+
+    # community impact validation votes
+    votes = relationship(
+        "ChallengeVote",
+        back_populates="challenge",
+        cascade="all, delete-orphan",
+    )

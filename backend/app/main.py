@@ -6,6 +6,7 @@ from app.core.config import settings
 
 from app.api.auth import router as auth_router
 from app.api.challenges import router as challenges_router
+from app.api.challenge_votes import router as challenge_votes_router
 from app.api.heis import router as heis_router
 from app.api.hei_departments import router as hei_departments_router
 from app.api.faculty import router as faculty_router
@@ -47,6 +48,9 @@ app.include_router(auth_router)
 # challenge + AI system
 app.include_router(challenges_router)
 
+# community impact validation
+app.include_router(challenge_votes_router)
+
 # HEI system
 app.include_router(heis_router)
 app.include_router(hei_departments_router)
@@ -65,7 +69,6 @@ app.include_router(project_deliverables_router)
 app.include_router(chat_router)
 app.include_router(scientist_reviews_router)
 app.include_router(sms_notifications_router)
-
 
 
 @app.get("/")
