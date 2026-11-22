@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslation } from '../../i18n/useTranslation'
 
-const API = 'http://127.0.0.1:8000'
+const API = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 
 export default function ScientistDashboard() {
   const { user, token } = useAuth()

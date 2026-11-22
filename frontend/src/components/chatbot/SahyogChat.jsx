@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import api from '../../services/api'
 
 export default function SahyogChat() {
   const [open, setOpen] = useState(false)
@@ -28,68 +29,48 @@ export default function SahyogChat() {
   }, [])
 
   const sendMessage = async () => {
-    if (!message.trim() || loading) return
+  if (!message.trim() || loading) return
 
-    const userMessage = message.trim()
+  const userMessage = message.trim()
+
+  setMessages((prev) => [
+    ...prev,
+    {
+      role: 'user',
+      content: userMessage
+    }
+  ])
+
+  setMessage('')
+  setLoading(true)
+
+  try {
+    const response = await api.post('/api/v1/chat', {
+      message: userMessage,
+      conversationId: 'sahyog-chat'
+    })
 
     setMessages((prev) => [
       ...prev,
       {
-        role: 'user',
-        content: userMessage
+        role: 'assistant',
+        content: response.data.response
       }
     ])
+  } catch (error) {
+    console.error('Chat error:', error)
 
-    setMessage('')
-    setLoading(true)
-
-    try {
-      const token = localStorage.getItem('token')
-
-      const response = await fetch(
-        'http://127.0.0.1:8000/api/v1/chat',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token
-              ? { Authorization: `Bearer ${token}` }
-              : {})
-          },
-          body: JSON.stringify({
-            message: userMessage,
-            conversationId: 'sahyog-chat'
-          })
-        }
-      )
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.detail || 'Chat request failed')
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: 'assistant',
+        content: 'Connection issue. Please try again.'
       }
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: data.response
-        }
-      ])
-    } catch (error) {
-      console.error('Chat error:', error)
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: 'Connection issue. Please try again.'
-        }
-      ])
-    } finally {
-      setLoading(false)
-    }
+    ])
+  } finally {
+    setLoading(false)
   }
+}
 
   // 🎤 Voice input
   const startListening = () => {

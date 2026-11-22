@@ -26,6 +26,8 @@ export default function ChallengeDetailPage() {
   const { id } = useParams()
   const { t, language } = useTranslation()
 
+  const API = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
+
   const [challenge, setChallenge] = useState(null)
   const [aiAnalysis, setAiAnalysis] = useState(null)
   const [heiMatches, setHeiMatches] = useState([])
@@ -65,7 +67,7 @@ export default function ChallengeDetailPage() {
           await challengeService.getFacultyMatches(id)
 
         const scientistResponse = await fetch(
-          `http://127.0.0.1:8000/api/v1/scientist-reviews/challenge/${id}`,
+          `${API}/api/v1/scientist-reviews/challenge/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('sih_token')}`,
@@ -75,7 +77,7 @@ export default function ChallengeDetailPage() {
 
         // Community validation
         const voteResponse = await fetch(
-          `http://127.0.0.1:8000/api/v1/challenge-votes/${id}`,
+          `${API}/api/v1/challenge-votes/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('sih_token')}`,
@@ -156,7 +158,7 @@ export default function ChallengeDetailPage() {
       const token = localStorage.getItem('sih_token')
 
       const response = await fetch(
-        `http://127.0.0.1:8000/api/v1/challenge-votes/${id}?vote=${vote}`,
+        `${API}/api/v1/challenge-votes/${id}?vote=${vote}`,
         {
           method: 'POST',
           headers: {
@@ -175,7 +177,7 @@ export default function ChallengeDetailPage() {
 
       // Get updated vote counts
       const resultsResponse = await fetch(
-        `http://127.0.0.1:8000/api/v1/challenge-votes/${id}`,
+        `${API}/api/v1/challenge-votes/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
