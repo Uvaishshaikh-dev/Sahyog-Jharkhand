@@ -45,7 +45,7 @@ export default function SahyogChat() {
   setLoading(true)
 
   try {
-    const response = await api.post('/api/v1/chat', {
+    const response = await api.post('/chat', {
       message: userMessage,
       conversationId: 'sahyog-chat'
     })
